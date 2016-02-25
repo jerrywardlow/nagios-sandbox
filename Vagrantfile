@@ -8,6 +8,7 @@ Vagrant.configure(2) do |config|
       if vm.id
         `VBoxManage guestproperty get #{vm.id} "/VirtualBox/GuestInfo/Net/1/V4/IP"`.split()[1]
   end
+
   config.vm.box = "ubuntu/trusty64"
 
   config.vm.provider "virtualbox" do |v|
@@ -15,3 +16,10 @@ Vagrant.configure(2) do |config|
     v.memory = 1024
 
   config.vm.network :private_network, type: "dhcp"
+
+  config.vm.define :server do |srv|
+    srv.vm.hostname = "nagios-server"
+    srv.vm.synced_folder "server/", "/usr/local/nagios/etc", create: true
+    srv.vm.network "forwarded_port", guest: 80, host: 8080
+    srv.vm.provision "shell", path: "server-provision"
+  end

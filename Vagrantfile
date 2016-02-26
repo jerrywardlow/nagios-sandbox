@@ -11,6 +11,8 @@ Vagrant.configure(2) do |config|
     config.hostmanager.enabled = true
   end
 
+# Everything below this comment needs to be reworked and condensed
+
   config.vm.box = "ubuntu/trusty64"
 
   config.vm.provider "virtualbox" do |v|

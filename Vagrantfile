@@ -4,11 +4,6 @@
 Vagrant.configure(2) do |config|
   if Vagrant.has_plugin?("vagrant-hostmanager")
     config.hostmanager.enabled = true
-    config.hostmanager.ip_resolver = proc do |vm, resolving_vm|
-      if vm.id
-        `VBoxManage guestproperty get #{vm.id} "/VirtualBox/GuestInfo/Net/1/V4/IP"`.split()[1]
-      end
-    end
   end
 
   config.vm.box = "ubuntu/trusty64"

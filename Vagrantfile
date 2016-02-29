@@ -26,12 +26,12 @@ Vagrant.configure(2) do |config|
     srv.vm.hostname = "nagios-server"
     srv.vm.synced_folder "server/", "/usr/local/nagios/etc", create: true
     srv.vm.network "forwarded_port", guest: 80, host: 8080
-    srv.vm.provision "shell", path: "server-provision"
+    srv.vm.provision "shell", path: "sr_provision.sh"
   end
 
   config.vm.define :client do |cl|
     cl.vm.hostname = "nagios-client"
     cl.vm.synced_folder "client/", "/usr/local/nagios/etc", create: true
-    cl.vm.provision "shell", path: "client-provision"
+    cl.vm.provision "shell", path: "cl_provision.sh"
   end
 end

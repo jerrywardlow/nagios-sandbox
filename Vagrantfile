@@ -4,11 +4,13 @@
 nodes = [
   { hostname: "nagios-server",
     box:      "ubuntu/trusty64",
-    config:   "sr_provision.sh"
+    config:   "sr_provision.sh",
+    ip:       "11",
   },
   { hostname: "nagios-client",
     box:      "ubuntu/trusty64",
-    config:   "cl_provision.sh"
+    config:   "cl_provision.sh",
+    ip:       "22",
   }
 ]
 
@@ -21,10 +23,7 @@ Vagrant.configure(2) do |config|
       nodeconfig.vm.provision :shell, path: node[:config]
       nodeconfig.vm.box = "ubuntu/trusty64"
       nodeconfig.vm.hostname = node[:hostname]
-      nodeconfig.vm.network :private_network, type: "dhcp"
-      if node[:hostname].include? "server"
-        nodeconfig.vm.network "forwarded_port", guest: 80, host: 8080
-      end
+      nodeconfig.vm.network :private_network, ip: "172.1.1." + node[:ip]
       nodeconfig.vm.provider :virtualbox do |vb|
         vb.name = node[:hostname]
         vb.memory = 1024

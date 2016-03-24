@@ -29,15 +29,15 @@ Vagrant.configure(2) do |config|
   config.vm.network :private_network, type: "dhcp"
 
   config.vm.define :server do |srv|
-    srv.vm.hostname = "nagios-server"
+    srv.vm.hostname = nodes[0][:hostname]
     srv.vm.synced_folder "server/", "/usr/local/nagios/etc", create: true
     srv.vm.network "forwarded_port", guest: 80, host: 8080
-    srv.vm.provision "shell", path: "sr_provision.sh"
+    srv.vm.provision "shell", path: nodes[0][:config]
   end
 
   config.vm.define :client do |cl|
-    cl.vm.hostname = "nagios-client"
+    cl.vm.hostname = nodes[1][:hostname]
     cl.vm.synced_folder "client/", "/usr/local/nagios/etc", create: true
-    cl.vm.provision "shell", path: "cl_provision.sh"
+    cl.vm.provision "shell", path: nodes[1][:config]
   end
 end

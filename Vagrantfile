@@ -2,8 +2,14 @@
 # vi: set ft=ruby :
 
 nodes = [
-  { :hostname => "nagios-server", :box => "ubuntu/trusty64", :config => "sr_provision.sh" },
-  { :hostname => "nagios-client", :box => "ubuntu/trusty64", :config => "cl_provision.sh" }
+  { hostname: "nagios-server",
+    box:      "ubuntu/trusty64",
+    config:   "sr_provision.sh"
+  },
+  { hostname: "nagios-client",
+    box:      "ubuntu/trusty64",
+    config:   "cl_provision.sh"
+  }
 ]
 
 Vagrant.configure(2) do |config|

@@ -16,28 +16,19 @@ Vagrant.configure(2) do |config|
   if Vagrant.has_plugin?("vagrant-hostmanager")
     config.hostmanager.enabled = true
   end
-
-# Everything below this comment needs to be reworked and condensed
-
-  config.vm.box = "ubuntu/trusty64"
-
-  config.vm.provider "virtualbox" do |v|
-    v.cpus = 2
-    v.memory = 1024
-  end
-
-  config.vm.network :private_network, type: "dhcp"
-
-  config.vm.define :server do |srv|
-    srv.vm.hostname = nodes[0][:hostname]
-    srv.vm.synced_folder "server/", "/usr/local/nagios/etc", create: true
-    srv.vm.network "forwarded_port", guest: 80, host: 8080
-    srv.vm.provision "shell", path: nodes[0][:config]
-  end
-
-  config.vm.define :client do |cl|
-    cl.vm.hostname = nodes[1][:hostname]
-    cl.vm.synced_folder "client/", "/usr/local/nagios/etc", create: true
-    cl.vm.provision "shell", path: nodes[1][:config]
+  nodes.each do |node|
+    config.vm.define node[:hostname] do |nodeconfig|
+      nodeconfig.vm.provision :shell, path: node[:config]
+      nodeconfig.vm.box = "ubuntu/trusty64"
+      nodeconfig.vm.hostname = node[:hostname]
+      nodeconfig.vm.network :private_network, type: "dhcp"
+      if node[:hostname].include? "server"
+        nodeconfig.vm.network "forwarded_port", guest: 80, host: 8080
+      end
+      nodeconfig.vm.provider :virtualbox do |vb|
+        vb.name = node[:hostname]
+        vb.memory = 1024
+      end
+    end
   end
 end

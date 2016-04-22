@@ -24,6 +24,10 @@ Vagrant.configure(2) do |config|
       nodeconfig.vm.box = "ubuntu/trusty64"
       nodeconfig.vm.hostname = node[:hostname]
       nodeconfig.vm.network :private_network, ip: "172.22.22." + node[:ip]
+      nodeconfig.vm.synced_folder ".", "/vagrant", disabled: true
+      tempdir = node[:hostname].sub("nagios-", "")
+      nodeconfig.vm.synced_folder tempdir+"/", "/"+tempdir
+
       nodeconfig.vm.provider :virtualbox do |vb|
         vb.name = node[:hostname]
         vb.memory = 1024

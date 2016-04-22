@@ -23,7 +23,7 @@ Vagrant.configure(2) do |config|
       nodeconfig.vm.provision :shell, path: node[:config]
       nodeconfig.vm.box = "ubuntu/trusty64"
       nodeconfig.vm.hostname = node[:hostname]
-      nodeconfig.vm.network :private_network, ip: "172.1.1." + node[:ip]
+      nodeconfig.vm.network :private_network, ip: "172.22.22." + node[:ip]
       nodeconfig.vm.provider :virtualbox do |vb|
         vb.name = node[:hostname]
         vb.memory = 1024

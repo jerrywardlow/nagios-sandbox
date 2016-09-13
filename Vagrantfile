@@ -27,7 +27,7 @@ Vagrant.configure(2) do |config|
       nodeconfig.vm.hostname = node[:hostname]
       nodeconfig.vm.network :private_network, ip: "192.168.56." + node[:ip]
       nodeconfig.vm.synced_folder ".", "/vagrant", disabled: true
-      nodeconfig.vm.synced_folder tempdir+"/", "/"+tempdir
+      nodeconfig.vm.synced_folder node[:sync], "/nagios"
 
       nodeconfig.vm.provider :virtualbox do |vb|
         vb.name = node[:hostname]

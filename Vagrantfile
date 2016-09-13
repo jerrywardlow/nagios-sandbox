@@ -4,13 +4,13 @@
 nodes = [
   { hostname: "nagios-server",
     box:      "ubuntu/trusty64",
-    config:   "sr_provision.sh",
+    config:   "provision/sr_provision.sh",
     ip:       "11",
     sync:     "server/temp/"
   },
   { hostname: "nagios-client",
     box:      "ubuntu/trusty64",
-    config:   "cl_provision.sh",
+    config:   "provision/cl_provision.sh",
     ip:       "22",
     sync:     "client/temp/"
   }
